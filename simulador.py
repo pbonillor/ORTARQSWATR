@@ -66,27 +66,27 @@ class Camion(threading.Thread):
         self.client.publish("gps", payload=data, qos=0, retain=False)
 
 
-
 print("Cargando datos ...")
 
-mypath = "*.txt"
-onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-
 camiones = {}
-for path in onlyfiles:
-    camion = path.split('/')[-1].replace('.txt', '')
+camiones['ABCD12345'] = []
+camiones['XYZW98765'] = []
 
-    camiones[camion] = []
+with open('ABCD12345.txt') as archivo:
+    for linea in archivo:
+        linea = linea.replace('\r','').replace('\n','')
+        if len(linea)>0:
+            camiones['ABCD12345'].append(linea)
 
-    with open("./simulacion/{0}".format(path)) as archivo:
-        for linea in archivo:
-            linea = linea.replace('\r','').replace('\n','')
-            if len(linea)>0:
-                camiones[camion].append(linea)
+with open('XYZW98765.txt') as archivo:
+    for linea in archivo:
+        linea = linea.replace('\r','').replace('\n','')
+        if len(linea)>0:
+            camiones['XYZW98765'].append(linea)
 
 print("Iniciando simulacion para {0} camiones".format(len(camiones)))
 
-intervalo = int(input("intervalo (segs.)? "))
+intervalo = 1
 for camion, valores in camiones.items():
     c = Camion(camion, intervalo, valores, MODO)
     c.start()
