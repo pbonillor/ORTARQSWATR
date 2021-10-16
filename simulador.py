@@ -69,7 +69,7 @@ class Camion(threading.Thread):
 
 print("Cargando datos ...")
 
-mypath = "./simulacion"
+mypath = "*.txt"
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 
 camiones = {}
